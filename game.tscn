@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://s26j3pp7883r"]
 
 [ext_resource type="Script" uid="uid://hlnpeb5a6fwf" path="res://scripts/car.gd" id="1_e2o6t"]
-[ext_resource type="Texture2D" uid="uid://buncq41t26a0e" path="res://kenney_toy-car-kit/Models/FBX format/Textures/colormap.png" id="2_e2o6t"]
+[ext_resource type="Texture2D" uid="uid://buncq41t26a0e" path="res://addons/godot_super-wakatime/kenney_toy-car-kit/Models/FBX format/Textures/colormap.png" id="2_e2o6t"]
 [ext_resource type="Script" uid="uid://bami4pukrv351" path="res://scripts/SpeedLabel.gd" id="3_feb5d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2ljd"]
