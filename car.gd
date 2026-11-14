@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 		engine_force = -throttle * max_engine_force * power
 		brake = 0.0
 
-	if Input.is_action_pressed("handbrake"):
+	if Input.is_action_pressed("brake"):
 		brake = max_brake
 	if Input.is_action_just_pressed("reset"):
 		reset_car()

@@ -13,20 +13,19 @@ extends VehicleBody3D
 var stuck_time := 0.0 ## how long car stuck or flipped
 
 func _physics_process(delta: float) -> void:
-    if racing_line == null:
-        return
-    
+	if racing_line == null:
+		return
+	
 	var curve  := racing_line.curve
 	var track_length := curve.get_baked_length()
 
 ##find where car is on track
 
 	var my_offset := curve.get_closest_offset(racing_line.to_local(global_position))
-    var target_offset := fposmod(my_offset + look_ahead, track_length)
-    var target := line_point(target_offset)
+	var target_offset := fposmod(my_offset + look_ahead, track_length)
+	var target := line_point(target_offset)
 
-    ##car face
-
+	##car face
 	var forward: Vector3 = global_basis.z
 	if model_faces_minus_z:
 		forward = -global_basis.z
@@ -37,17 +36,17 @@ func _physics_process(delta: float) -> void:
 
 ##positive angle
 
-    var angle := forward.signed_angle_to(to_target, Vector3.UP)
-    steering = move_toward(steering, clampf(angle, -max_steer, max_steer),
-    steer_speed * delta)
+	var angle := forward.signed_angle_to(to_target, Vector3.UP)
+	steering = move_toward(steering, clampf(angle, -max_steer, max_steer),
+	steer_speed * delta)
 
 ##slow down for turns
 
-    var turn_amount := clampf(absf(angle) / (PI / 2.0), 0.0, 1.0)
+	var turn_amount := clampf(absf(angle) / (PI / 2.0), 0.0, 1.0)
 	var target_speed := max_speed * (1.0 - corner_slow * turn_amount)
 	var speed := linear_velocity.dot(forward.normalized())
 
-    var direction := 1.0
+	var direction := 1.0
 	if model_faces_minus_z:
 		direction = -1.0
 
@@ -70,12 +69,12 @@ func _physics_process(delta: float) -> void:
 		respawn(my_offset)
 
 func respawn(offset: float) -> void:
-    var curve := racing_line.curve
-    var track_length := curve.get_baked_length()
+	var curve := racing_line.curve
+	var track_length := curve.get_baked_length()
 
-    var spot := line_point(offset)
-    var ahead := line_point(fposmod(offset + 2.0, track_length))
-    var facing := (ahead - spot).normalized()
+	var spot := line_point(offset)
+	var ahead := line_point(fposmod(offset + 2.0, track_length))
+	var facing := (ahead - spot).normalized()
 
 	global_transform = Transform3D(Basis.looking_at(facing,
 	Vector3.UP , not model_faces_minus_z), spot + Vector3.UP)
