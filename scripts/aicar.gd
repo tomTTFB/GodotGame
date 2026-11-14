@@ -10,31 +10,30 @@ extends VehicleBody3D
 @export var model_faces_minus_z := true ##true if car face forward
 @export var lane_offset := 0.0
 
-var stuck_time := 0 ## how long car stuck or flipped
+var stuck_time := 0.0 ## how long car stuck or flipped
 
 func _physics_process(delta: float) -> void:
     if racing_line == null:
         return
     
-var curve  := racing_line.curve
-var track_length := curve.get_baked_length()
+	var curve  := racing_line.curve
+	var track_length := curve.get_baked_length()
 
 ##find where car is on track
 
-    var my_offset :=
-curve.get_closest_offset(racing_line.to_local(global_position))
+	var my_offset := curve.get_closest_offset(racing_line.to_local(global_position))
     var target_offset := fposmod(my_offset + look_ahead, track_length)
     var target := line_point(target_offset)
 
     ##car face
 
-var forward: Vector3 = global_basis.z
-if model_faces_minus_z
-    forward = -global_basis.z
-forward.y = 0.0
+	var forward: Vector3 = global_basis.z
+	if model_faces_minus_z:
+		forward = -global_basis.z
+	forward.y = 0.0
 
-var to_target := target - global_position
-to_target.y = 0.0
+	var to_target := target - global_position
+	to_target.y = 0.0
 
 ##positive angle
 
@@ -45,31 +44,30 @@ to_target.y = 0.0
 ##slow down for turns
 
     var turn_amount := clampf(absf(angle) / (PI / 2.0), 0.0, 1.0)
-	var target_speed := max_speed * (1.0 - corner_slowdown * turn_amount)
+	var target_speed := max_speed * (1.0 - corner_slow * turn_amount)
 	var speed := linear_velocity.dot(forward.normalized())
 
     var direction := 1.0
-if model_faces_minus_z:
-    direction = -1.0
+	if model_faces_minus_z:
+		direction = -1.0
 
-if speed < target_speed:
-    engine_force = max_engine_force * direction
-    brake = 0.0
-else:
-    engine_force = 0.0
-    brake = 2.0
+	if speed < target_speed:
+		engine_force = max_engine_force * direction
+		brake = 0.0
+	else:
+		engine_force = 0.0
+		brake = 2.0
 
 ##if stuck
 
+	var flipped := global_basis.y.dot(Vector3.UP) < 0.3
+	if speed < 0.5 or flipped:
+		stuck_time += delta
+	else:
+		stuck_time = 0.0
 
-var flipped := global_basis.y.dot(Vector3.up) < 0.3
-if speed < 0.5 or flipped:
-    stuck_time += delta
-else:
-    stuck_time = 0.0
-
-if stuck_time > 3.0
-    respawn(my_offset)
+	if stuck_time > 3.0:
+		respawn(my_offset)
 
 func respawn(offset: float) -> void:
     var curve := racing_line.curve
@@ -79,12 +77,12 @@ func respawn(offset: float) -> void:
     var ahead := line_point(fposmod(offset + 2.0, track_length))
     var facing := (ahead - spot).normalized()
 
-    global_transform = TRANSFORM3D(Basis.looking_at(facing
-    Vector3.UP , not model_faces_minus_z), spot + Vector3.UP)
-        linear_velocity = Vector3.ZERO
-        angular_velcoity = Vector3.ZERO
-        steering = 0.0
-        stuck_time = 0.0
+	global_transform = Transform3D(Basis.looking_at(facing,
+	Vector3.UP , not model_faces_minus_z), spot + Vector3.UP)
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+	steering = 0.0
+	stuck_time = 0.0
 
 ##point on race line moved by offset
 

@@ -14,22 +14,23 @@ extends Node3D
 @export var lane_spread := 1.2
 
 func _ready() -> void:
-    if ai_car_scene == null:
-    push_error("race_grid: set ai car scene in inspector")
-    return
+   	if ai_car_scene == null:
+		push_error("race_grid: set ai car scene in inspector")
+		return
 
     for i in ai_count:
         var car := ai_car_scene.instantiate() as VehicleBody3D
         car.set("racing_line", racing_line)
         car.set("max_speed", randf_range(min_ai_speed, max_ai_speed))
         car.set("lane_offset", randf_range(-lane_spread, lane_spread)/ 2.0)
-        car.name = "AIcar"(i + 1)
+       	car.name = "AICar%d" % (i + 1)
         car.position = grid_slot(i)
         add_child(car)
 
 
         if player_car != null:
-            player_car.global_transform * Transform3D(Basis.IDENTITY, grid_slot(ai_count))
+            player_car.global_transform * 
+        Transform3D(Basis.IDENTITY, grid_slot(ai_count))
 
 ## works out where grid spot number "index" is, relative to this node
 func grid_slot(index: int) -> Vector3:
