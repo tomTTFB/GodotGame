@@ -2,7 +2,7 @@ extends VehicleBody3D
 
 @export var max_engine_force := 180.0
 @export var max_brake := 40.0
-@export var top_speed := 25.0        ## m/s
+@export var top_speed := 25.0        ## m per sec
 @export var max_steer := 0.5         ## steering angle when slow
 @export var min_steer := 0.15        ## steering angle at top speed
 @export var steer_in_speed := 3.0    ## how fast it turns in
