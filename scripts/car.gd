@@ -15,3 +15,8 @@ var forward_speed := linear_velocity.dot(global_basis.z)
 if throttle < 0.0 and forward_speed > 1.0:
     engine_force = 0.0 ##press s while moving forward = brake
 
+brake = max_brake * -throttle
+else:
+engine_force = throttle * max_engine_force ## s when stopped = reverse
+brake = 0.0
+
