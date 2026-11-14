@@ -13,5 +13,5 @@ steering = move_toward(steering, steer_input * max_steer, steer_speed * delta)
 
 var forward_speed := linear_velocity.dot(global_basis.z)
 if throttle < 0.0 and forward_speed > 1.0:
-    engine_force = 0.0
+    engine_force = 0.0 ##press s while moving forward = brake
 
