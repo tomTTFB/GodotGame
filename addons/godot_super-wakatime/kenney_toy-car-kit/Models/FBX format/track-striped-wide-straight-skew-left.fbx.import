@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://3qb105kgo45g"
-path="res://.godot/imported/track-striped-wide-straight-skew-left.fbx-6b6447fbd1b565cb4af0fcc27dec72fe.scn"
+path="res://.godot/imported/track-striped-wide-straight-skew-left.fbx-55c6d60fb666cb8b5b73ae1e3a03729b.scn"
 
 [deps]
 
-source_file="res://kenney_toy-car-kit/Models/FBX format/track-striped-wide-straight-skew-left.fbx"
-dest_files=["res://.godot/imported/track-striped-wide-straight-skew-left.fbx-6b6447fbd1b565cb4af0fcc27dec72fe.scn"]
+source_file="res://addons/godot_super-wakatime/kenney_toy-car-kit/Models/FBX format/track-striped-wide-straight-skew-left.fbx"
+dest_files=["res://.godot/imported/track-striped-wide-straight-skew-left.fbx-55c6d60fb666cb8b5b73ae1e3a03729b.scn"]
 
 [params]
 
