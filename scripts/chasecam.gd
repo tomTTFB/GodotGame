@@ -1,16 +1,15 @@
 extends Camera3D
 
-@export var target: Node3D ## the car to follow
-@export var distance := 7.0 ## how far behind car
-@export var height := 2.5 ## height of cam
-@export var smoothness := 6.0 ## cam snap speed
-
+@export var target: Node3D
+@export var distance := 2.0
+@export var height := 1.5
+@export var smoothness := 6.0
 
 func _physics_process(delta: float) -> void:
 	if target == null:
 		return
 
-	var back := -target.global_basis.z
+	var back := target.global_basis.z
 	back.y = 0.0
 	back = back.normalized()
 

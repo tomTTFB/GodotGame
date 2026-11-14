@@ -1,6 +1,6 @@
 extends VehicleBody3D
 
-@export var max_engine_force := 150.0 ##max speed
+@export var max_engine_force := 200 ##max speed
 @export var max_brake := 40.0 ##max brake speed
 @export var max_steer := 0.5 ##max speed steer
 @export var steer_speed := 2.0 ##speed car steers at
@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 		engine_force = 0.0 ##press s while moving forward = brake
 		brake = max_brake * -throttle
 	else:
-		engine_force = throttle * max_engine_force ## s when stopped = reverse
+		engine_force = throttle * max_engine_force
 		brake = 0.0
 
 	if Input.is_action_pressed("brake"):
@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		reset_car()
 
-func reset_car() -> void: ##flip car upright
+func reset_car() -> void:
 	global_transform = Transform3D(Basis(Vector3.UP, rotation.y), global_position + Vector3.UP * 1.5)
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO

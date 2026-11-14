@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://c4k148c8kgaio"]
+
+[ext_resource type="Texture2D" uid="uid://cd8ji7pf6008p" path="res://track.png" id="1_8dni2"]
+[ext_resource type="MeshLibrary" uid="uid://j7ao7pcu5opq" path="res://TrackLib.meshlib" id="2_7by0s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fo0vr"]
+albedo_texture = ExtResource("1_8dni2")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0j5gg"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ayymx"]
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=1369971203]
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1274864745]
+transform = Transform3D(10.007112, 0, -1.8287218, 0, 1, 0, 2.2929006, 0, 7.9812555, -275.0075, 0, 90.174904)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1134634504]
+transform = Transform3D(55.838768, 0, -4.7683716e-06, 0, 1, 0, 0, 0, 40.525906, -20.06181, -0.008671701, 10.078297)
+material_override = SubResource("StandardMaterial3D_fo0vr")
+mesh = SubResource("PlaneMesh_0j5gg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=1268592310]
+shape = SubResource("WorldBoundaryShape3D_ayymx")
+
+[node name="GridMap" type="GridMap" parent="." unique_id=2015428813]
+mesh_library = ExtResource("2_7by0s")
+cell_size = Vector3(1.5, 3, 1.5)
+cell_scale = 3.0
+data = {
+"cells": PackedInt32Array(65520, 65507, 1048584, 65522, 65507, 1048584, 65524, 65507, 1048584, 65526, 65507, 1048584, 65528, 65507, 1441800, 65530, 65507, 1441800, 65532, 65507, 1441800, 65534, 65507, 1441800, 0, 65507, 1441800, 2, 65507, 1441800, 4, 65507, 1441800, 6, 65507, 1441800, 8, 65507, 1441800, 10, 65507, 1441800, 12, 65507, 1441800, 14, 65507, 1441800, 16, 65507, 1441800, 18, 65507, 1441800, 20, 65507, 1441800, 22, 65507, 1441800, 23, 65507, 1048587, 31, 65515, 0, 27, 65524, 8, 27, 65526, 8, 27, 65528, 8, 27, 65530, 8, 27, 65532, 8, 27, 65534, 8, 27, 0, 8, 27, 2, 8, 27, 4, 8, 27, 6, 8, 27, 8, 8, 27, 10, 8, 27, 12, 8, 23, 21, 655360, 23, 22, 655368, 23, 24, 655368, 23, 26, 8, 23, 28, 8, 23, 30, 8, 23, 32, 8, 23, 34, 8, 23, 36, 8, 23, 38, 8, 23, 40, 8, 23, 42, 8, 23, 43, 9, 65489, 116, 1441805, 19, 47, 1441792, 7, 47, 655369, 7, 48, 8, 7, 49, 8, 7, 51, 8, 7, 52, 9, 2, 56, 1441800, 0, 56, 1441800, 65534, 56, 1441800, 65532, 56, 1441800, 65531, 56, 1441795, 65522, 56, 1441800, 65521, 56, 1441795, 65512, 56, 1441800, 65510, 56, 1441800, 65508, 56, 1441800, 65506, 56, 1441800, 65501, 60, 655369)
+}

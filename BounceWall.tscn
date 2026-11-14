@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dsxn3ev475vfi"]
+
+[ext_resource type="Script" uid="uid://b6kk382hdr4v" path="res://ScrollingLines.gd" id="1_8xxi8"]
+[ext_resource type="Shape3D" uid="uid://cvpy1yeav7xlk" path="res://CollisionShapes/BounceWall.tres" id="2_8h2py"]
+
+[sub_resource type="Gradient" id="Gradient_hf2f1"]
+colors = PackedColorArray(0.2059403, 0.6088824, 0.78851134, 1, 0.4498, 0.62126076, 0.96944493, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0nkjs"]
+gradient = SubResource("Gradient_hf2f1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jjpub"]
+albedo_texture = SubResource("GradientTexture2D_0nkjs")
+emission_enabled = true
+uv1_scale = Vector3(4, 4, 4)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_kuy6b"]
+material = SubResource("StandardMaterial3D_jjpub")
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=167441350]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=70420059]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("BoxMesh_kuy6b")
+script = ExtResource("1_8xxi8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2043618422]
+shape = ExtResource("2_8h2py")
