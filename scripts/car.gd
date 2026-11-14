@@ -1,13 +1,13 @@
 extends VehicleBody3D
 
-@export var max_engine_force := 1500.0 ##max speed
+@export var max_engine_force := 150.0 ##max speed
 @export var max_brake := 40.0 ##max brake speed
 @export var max_steer := 0.5 ##max speed steer
-@export var steer_speed := 3.0 ##speed car steers at
+@export var steer_speed := 2.0 ##speed car steers at
 
 func _physics_process(delta: float) -> void:
-	var throttle := Input.get_axis("brake", "accelerate")
-	var steer_input := Input.get_axis("steer_right", "steer_left")
+	var throttle := Input.get_axis("ui_up", "ui_down")
+	var steer_input := Input.get_axis("ui_right", "ui_left")
 
 	steering = move_toward(steering, steer_input * max_steer, steer_speed * delta)
 
@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 		engine_force = throttle * max_engine_force ## s when stopped = reverse
 		brake = 0.0
 
-	if Input.is_action_pressed("handbrake"):
+	if Input.is_action_pressed("brake"):
 		brake = max_brake
 
 	if Input.is_action_just_pressed("reset"):
