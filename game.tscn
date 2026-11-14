@@ -1,10 +1,11 @@
 [gd_scene format=4 uid="uid://s26j3pp7883r"]
 
-[ext_resource type="Script" uid="uid://hlnpeb5a6fwf" path="res://scripts/car.gd" id="1_e2o6t"]
+[ext_resource type="Script" uid="uid://dowxdm8s5dar0" path="res://car.gd" id="1_e2o6t"]
 [ext_resource type="Texture2D" uid="uid://buncq41t26a0e" path="res://addons/godot_super-wakatime/kenney_toy-car-kit/Models/FBX format/Textures/colormap.png" id="2_e2o6t"]
 [ext_resource type="Script" uid="uid://bami4pukrv351" path="res://scripts/SpeedLabel.gd" id="3_feb5d"]
 [ext_resource type="Script" uid="uid://clynjlbs6mg1m" path="res://scripts/chasecam.gd" id="4_fc0e3"]
-[ext_resource type="PackedScene" uid="uid://c4k148c8kgaio" path="res://Track.tscn" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://b8njbddv3h0as" path="res://Track.gltf" id="5_7jktm"]
+[ext_resource type="Script" uid="uid://dstwk7sbuydyt" path="res://track.gd" id="6_ryrav"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2ljd"]
 resource_name = "colormap"
@@ -207,7 +208,11 @@ shadow_enabled = true
 
 [node name="Car" type="VehicleBody3D" parent="." unique_id=1410756196]
 transform = Transform3D(-0.00081162044, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, -0.00081162044, 0, 0, 0)
+center_of_mass_mode = 1
 script = ExtResource("1_e2o6t")
+max_engine_force = 270.0
+top_speed = 50.0
+downforce = 0.15
 
 [node name="vehicle-speedster" type="Node3D" parent="Car" unique_id=25386688]
 
@@ -220,8 +225,9 @@ shape = SubResource("ConvexPolygonShape3D_fc0e3")
 [node name="WheelFL" type="VehicleWheel3D" parent="Car" unique_id=1361755316]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2160155, 0.12936686, -0.19407694)
 use_as_steering = true
-wheel_radius = 0.13
+wheel_radius = 0.14
 wheel_friction_slip = 5.25
+suspension_stiffness = 7.0
 
 [node name="wheel-fl" type="MeshInstance3D" parent="Car/WheelFL" unique_id=1351487559]
 mesh = SubResource("ArrayMesh_03yjc")
@@ -231,6 +237,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21275687, 0.1348817, -0.189
 use_as_steering = true
 wheel_radius = 0.13
 wheel_friction_slip = 5.25
+suspension_stiffness = 7.0
 
 [node name="wheel-fr" type="MeshInstance3D" parent="Car/WheelFR" unique_id=266917027]
 mesh = SubResource("ArrayMesh_wub83")
@@ -240,6 +247,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20857622, 0.12460452, 0.32
 use_as_traction = true
 wheel_radius = 0.13
 wheel_friction_slip = 5.25
+suspension_stiffness = 7.0
 
 [node name="wheel-bl" type="MeshInstance3D" parent="Car/WheelBL" unique_id=220341877]
 mesh = SubResource("ArrayMesh_yfqhi")
@@ -249,6 +257,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21006283, 0.12813382, 0.335
 use_as_traction = true
 wheel_radius = 0.13
 wheel_friction_slip = 5.25
+suspension_stiffness = 7.0
 
 [node name="wheel-br" type="MeshInstance3D" parent="Car/WheelBR" unique_id=2144512115]
 mesh = SubResource("ArrayMesh_dj6la")
@@ -272,6 +281,11 @@ environment = SubResource("Environment_gb0x2")
 transform = Transform3D(1, 0, 0, 0, 0.9416806, 0.33650804, 0, -0.33650804, 0.9416806, 0, 0.98176605, 1.7376385)
 script = ExtResource("4_fc0e3")
 target = NodePath("../Car")
+distance = 1.75
+height = 1.6
 
-[node name="StaticBody3D" parent="." unique_id=1369971203 instance=ExtResource("5_7jktm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.281843, -1.9712334, 42.639416)
+[node name="StaticBody3D" parent="." unique_id=209828095 instance=ExtResource("5_7jktm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.395079, -2.3105679, 42.60811)
+script = ExtResource("6_ryrav")
+
+[editable path="StaticBody3D"]
