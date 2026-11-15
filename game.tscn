@@ -1,6 +1,5 @@
 [gd_scene format=4 uid="uid://s26j3pp7883r"]
 
-[ext_resource type="Script" uid="uid://dowxdm8s5dar0" path="res://scripts/car.gd" id="1_e2o6t"]
 [ext_resource type="Texture2D" uid="uid://buncq41t26a0e" path="res://addons/godot_super-wakatime/kenney_toy-car-kit/Models/FBX format/Textures/colormap.png" id="2_e2o6t"]
 [ext_resource type="Texture2D" uid="uid://i4pp8qs25loy" path="res://textures/colormap7.png" id="2_j5wjh"]
 [ext_resource type="Script" uid="uid://bami4pukrv351" path="res://scripts/SpeedLabel.gd" id="3_feb5d"]
@@ -11,6 +10,50 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ryrav"]
 bounce = 0.6
+
+[sub_resource type="GDScript" id="GDScript_eow3j"]
+script/source = "extends VehicleBody3D
+
+@export var max_engine_force := 180.0
+@export var max_brake := 40.0
+@export var top_speed := 25.0        ## m per sec
+@export var max_steer := 0.5         ## steering angle when slow
+@export var min_steer := 0.15        ## steering angle at top speed
+@export var steer_in_speed := 3.0    ## how fast it turns in
+@export var steer_out_speed := 6.0   ## how fast it re-centres
+@export var downforce := 0.2         ## extra grip as speed rises
+
+func _physics_process(delta: float) -> void:
+	var throttle := Input.get_axis(\"ui_down\", \"ui_up\")
+	var steer_input := Input.get_axis(\"ui_right\", \"ui_left\")
+
+	var forward_speed := linear_velocity.dot(-global_basis.z)  # model faces -Z
+	var speed_ratio := clampf(absf(forward_speed) / top_speed, 0.0, 1.0)
+	
+	var target := steer_input * lerpf(max_steer, min_steer, speed_ratio)
+	var rate := steer_in_speed if absf(target) > absf(steering) else steer_out_speed
+	steering = move_toward(steering, target, rate * delta)
+
+	if throttle < 0.0 and forward_speed > 1.0:
+		engine_force = 0.0
+		brake = max_brake * -throttle
+	else:
+		var power := 1.0 - pow(speed_ratio, 3.0) if throttle * forward_speed > 0.0 else 1.0
+		engine_force = -throttle * max_engine_force * power
+		brake = 0.0
+
+	if Input.is_action_pressed(\"brake\"):
+		brake = max_brake
+	if Input.is_action_just_pressed(\"reset\"):
+		reset_car()
+
+	apply_central_force(-global_basis.y * downforce * absf(forward_speed) * mass)
+
+func reset_car() -> void:
+	global_transform = Transform3D(Basis(Vector3.UP, rotation.y), global_position + Vector3.UP * 1.5)
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pkki"]
 albedo_color = Color(0.3529412, 0.627451, 1, 1)
@@ -254,12 +297,7 @@ transform = Transform3D(-0.0007485111, 0, -0.9999997, 0, 1, 0, 1.0373483, 0, -0.
 physics_material_override = SubResource("PhysicsMaterial_ryrav")
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 0.08)
-script = ExtResource("1_e2o6t")
-max_engine_force = 80.0
-top_speed = 50.0
-max_steer = 0.3
-steer_in_speed = 1.8
-downforce = 0.15
+script = SubResource("GDScript_eow3j")
 
 [node name="vehicle-speedster" type="Node3D" parent="Car" unique_id=25386688]
 
@@ -360,7 +398,7 @@ launch_speed = 22.0
 bounce_speed = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/bounce9" unique_id=907246561]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 13.899612)
 shape = SubResource("BoxShape3D_5pkki")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/bounce9" unique_id=425064744]
@@ -372,10 +410,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.7, 1.538, 115)
 script = ExtResource("7_eow3j")
 launch_speed = 22.0
 bounce_speed = 0.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/bounce10" unique_id=1672894645]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
-shape = SubResource("BoxShape3D_5pkki")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/bounce10" unique_id=1015476481]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14525604, 0, 12.712128)
@@ -462,16 +496,12 @@ script = ExtResource("7_eow3j")
 launch_speed = 22.0
 bounce_speed = 0.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce9" unique_id=1994455174]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
-shape = SubResource("BoxShape3D_5pkki")
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="bounce9" unique_id=1915972495]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.89692247, 0.02741623, 0, 12.712128)
 mesh = SubResource("BoxMesh_vef74")
 
 [node name="bounce10" type="Area3D" parent="." unique_id=383863341]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3, 1.538, 175)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.7493997, 1.5169443, 188.3767)
 script = ExtResource("7_eow3j")
 launch_speed = 6.0
 bounce_speed = 14.0
@@ -508,7 +538,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26620483, 0, 0)
 mesh = SubResource("BoxMesh_5pkki")
 
 [node name="bounce4" type="Area3D" parent="." unique_id=1474152666]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -150, 1.538, 51.8)
+transform = Transform3D(0.010149456, 0.00066548586, -0.49989656, -1.3507612e-05, 0.49999964, 0.00066534616, 0.49989697, 0, 0.010149464, -150, 1.538, 53.170155)
 script = ExtResource("7_eow3j")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="bounce4" unique_id=1863043488]
