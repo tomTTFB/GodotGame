@@ -5,7 +5,7 @@ extends VehicleBody3D
 @export var top_speed := 25.0 ## m per sec
 @export var max_steer := 0.5  ## steering angle when slow
 @export var min_steer := 0.15  ## steering angle at top speed
-@export var steer_in_speed := 3.0  ## how fast it turns in
+@export var steer_in_speed := 0.7  ## how fast it turns in
 @export var steer_out_speed := 6.0  ## how fast it re-centres
 @export var downforce := 0.2    ## extra grip as speed rises
 @export var brake_ramp := 15.0 ## speed brake build
