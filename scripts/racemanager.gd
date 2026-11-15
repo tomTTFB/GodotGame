@@ -14,18 +14,18 @@ var lap := 1 ## lap car is on
 var race_time := 0.0 ## seconds race started
 var finished := false ## true once laps done
 var countdown := 0.0 ## time left started
-car best_time := 0.0 ##fastest time far
+var best_time := 0.0 ##fastest time far
 const SAVE_PATH := "user://best-time.cfg"
 
 
 func _ready() -> void:
-countdown = countdown_time
-if car != null:
-	car.freeze = true ## hold car during countdown
+	countdown = countdown_time
+	if car != null:
+		car.freeze = true ## hold car during countdown
 
-var save := ConfigFile.new()
-if save.load(SAVE_PATH) == OK:
-	best_time = save.get_value("race", "best", 0.0)
+	var save := ConfigFile.new()
+	if save.load(SAVE_PATH) == OK:
+		best_time = save.get_value("race", "best", 0.0)
 	if checkpoints == null:
 		push_error("race_manager: set checkpoints in inspector")
 		return
@@ -56,28 +56,28 @@ func _on_checkpoint_entered(body: Node3D, index: int) -> void:
 
 
 func _process(delta: float) -> void:
-	if countdown > 0.0
-		countdown -= delta
-		if countdown <= 0.0 and car != null:
-			car.freeze = false ##go
-		if lap_label != null:
-			lap_label.text = "%d" % ceili(countdown)
-		return
-	if not finished:
-		race_time += delta
-	elif Input.is_action_just_pressed("ui_accept"):
-		get_tree().reload_current_scene() ##enter to race again
+		if countdown > 0.0:
+			countdown -= delta
+			if countdown <= 0.0 and car != null:
+				car.freeze = false ##go
+			if lap_label != null:
+				lap_label.text = "%d" % ceili(countdown)
+			return
+		if not finished:
+			race_time += delta
+		elif Input.is_action_just_pressed("ui_accept"):
+			get_tree().reload_current_scene() ##enter to race again
 
-	if lap_label == null:
-		return
+		if lap_label == null:
+			return
 
-	var shown_lap := mini(lap, total_laps)
-	var display := "Lap %d / %d\nTime: %.2f" % [shown_lap, total_laps, race_time]
-	if best_time > 0.0:
-		display += "\nBest: %.2f" % best_time
-	if finished:
-		display += "\nFINISHED press enter to play again"
-	lap_label.text = display
+		var shown_lap := mini(lap, total_laps)
+		var display := "Lap %d / %d\nTime: %.2f" % [shown_lap, total_laps, race_time]
+		if best_time > 0.0:
+			display += "\nBest: %.2f" % best_time
+		if finished:
+				display += "\nFINISHED press enter to play again"
+		lap_label.text = display
 
 ##saves time if lap is fastest
 
@@ -86,5 +86,4 @@ func save_best_time() -> void:
 		best_time = race_time
 		var save := ConfigFile.new()
 		save.set_value("race", "best", best_time)
-		save.save(SAVE_PATH
-		)
+		save.save(SAVE_PATH)

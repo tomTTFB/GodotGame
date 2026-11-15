@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bami4pukrv351" path="res://scripts/SpeedLabel.gd" id="3_feb5d"]
 [ext_resource type="Script" uid="uid://clynjlbs6mg1m" path="res://scripts/chasecam.gd" id="4_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://c4k148c8kgaio" path="res://Track.tscn" id="5_7jktm"]
+[ext_resource type="Script" uid="uid://dwut71srwokea" path="res://scripts/racemanager.gd" id="6_ryrav"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ryrav"]
 
@@ -295,7 +296,20 @@ label_settings = SubResource("LabelSettings_feb5d")
 script = ExtResource("3_feb5d")
 car = NodePath("../../Car")
 
+[node name="Label2" type="Label" parent="CanvasGroup" unique_id=1430703993]
+offset_left = 500.0
+offset_top = 10.0
+offset_right = 800.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 32
+text = "0.00"
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=389684952]
 environment = SubResource("Environment_gb0x2")
 
 [node name="StaticBody3D" parent="." unique_id=1369971203 instance=ExtResource("5_7jktm")]
+
+[node name="racemanager" type="Node3D" parent="." unique_id=587211052 node_paths=PackedStringArray("car", "lap_label")]
+script = ExtResource("6_ryrav")
+car = NodePath("../Car")
+lap_label = NodePath("../CanvasGroup/Label2")
