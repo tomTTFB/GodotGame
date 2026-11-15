@@ -1,13 +1,20 @@
 [gd_scene format=4 uid="uid://s26j3pp7883r"]
 
-[ext_resource type="Script" uid="uid://dowxdm8s5dar0" path="res://car.gd" id="1_e2o6t"]
+[ext_resource type="Script" uid="uid://dowxdm8s5dar0" path="res://scripts/car.gd" id="1_e2o6t"]
 [ext_resource type="Texture2D" uid="uid://buncq41t26a0e" path="res://addons/godot_super-wakatime/kenney_toy-car-kit/Models/FBX format/Textures/colormap.png" id="2_e2o6t"]
+[ext_resource type="Texture2D" uid="uid://i4pp8qs25loy" path="res://textures/colormap7.png" id="2_j5wjh"]
 [ext_resource type="Script" uid="uid://bami4pukrv351" path="res://scripts/SpeedLabel.gd" id="3_feb5d"]
 [ext_resource type="Script" uid="uid://clynjlbs6mg1m" path="res://scripts/chasecam.gd" id="4_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://c4k148c8kgaio" path="res://Track.tscn" id="5_7jktm"]
 [ext_resource type="Script" uid="uid://dwut71srwokea" path="res://scripts/racemanager.gd" id="6_ryrav"]
+[ext_resource type="Script" uid="uid://um4evrooqiuf" path="res://scripts/bounce.gd" id="7_eow3j"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ryrav"]
+bounce = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pkki"]
+albedo_color = Color(0.3529412, 0.627451, 1, 1)
+albedo_texture = ExtResource("2_j5wjh")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2ljd"]
 resource_name = "colormap"
@@ -194,6 +201,8 @@ outline_size = 11
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m6ccs"]
+sky_top_color = Color(0.18431373, 0.60784316, 1, 1)
+sky_horizon_color = Color(0.72156864, 0.95686275, 1, 1)
 
 [sub_resource type="Sky" id="Sky_ob04f"]
 sky_material = SubResource("ProceduralSkyMaterial_m6ccs")
@@ -201,6 +210,38 @@ sky_material = SubResource("ProceduralSkyMaterial_m6ccs")
 [sub_resource type="Environment" id="Environment_gb0x2"]
 background_mode = 2
 sky = SubResource("Sky_ob04f")
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5pkki"]
+size = Vector3(6.8515625, 1, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5wjh"]
+albedo_color = Color(0.22352941, 1, 0.078431375, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vef74"]
+material = SubResource("StandardMaterial3D_j5wjh")
+size = Vector3(5, 0.1, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_45ky8"]
+albedo_color = Color(1, 0.16862746, 0.8392157, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5pkki"]
+material = SubResource("StandardMaterial3D_45ky8")
+size = Vector3(5, 0.1, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hve3p"]
+albedo_color = Color(1, 0.9019608, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mfdv2"]
+material = SubResource("StandardMaterial3D_hve3p")
+size = Vector3(5, 0.1, 3)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p8le3"]
+bounce = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5pkki"]
+height = 1.5
+radius = 0.7
 
 [node name="Node3D" type="Node3D" unique_id=792607889]
 
@@ -209,7 +250,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="Car" type="VehicleBody3D" parent="." unique_id=1410756196]
-transform = Transform3D(-0.00081162044, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, -0.00081162044, 0, 0, 0)
+transform = Transform3D(-0.0007485111, 0, -0.9999997, 0, 1, 0, 1.0373483, 0, -0.0007215618, 22.57508, 1.8090432, -43.639465)
 physics_material_override = SubResource("PhysicsMaterial_ryrav")
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 0.08)
@@ -223,10 +264,12 @@ downforce = 0.15
 [node name="vehicle-speedster" type="Node3D" parent="Car" unique_id=25386688]
 
 [node name="vehicle-speedster" type="MeshInstance3D" parent="Car/vehicle-speedster" unique_id=247366364]
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_5pkki")
 mesh = SubResource("ArrayMesh_feb5d")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="Car" unique_id=1667856062]
-transform = Transform3D(1.0000011, 0, 0, 0, 1, 0, 0, 0, 1.0000011, 0, 0.0002611056, 0)
+transform = Transform3D(1.000001, 0, 0, 0, 1, 0, 0, 0, 1.000001, 0, 0.0029706955, 0)
 shape = SubResource("ConvexPolygonShape3D_fc0e3")
 
 [node name="WheelFL" type="VehicleWheel3D" parent="Car" unique_id=1361755316]
@@ -308,8 +351,218 @@ text = "0.00"
 environment = SubResource("Environment_gb0x2")
 
 [node name="StaticBody3D" parent="." unique_id=1369971203 instance=ExtResource("5_7jktm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2625649, -0.3083806, -1.046402)
+
+[node name="bounce9" type="Area3D" parent="StaticBody3D" unique_id=1555648128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.7, 1.538, 115)
+script = ExtResource("7_eow3j")
+launch_speed = 22.0
+bounce_speed = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/bounce9" unique_id=907246561]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/bounce9" unique_id=425064744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14525604, 0, 12.712128)
+mesh = SubResource("BoxMesh_vef74")
+
+[node name="bounce10" type="Area3D" parent="StaticBody3D" unique_id=328612755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.7, 1.538, 115)
+script = ExtResource("7_eow3j")
+launch_speed = 22.0
+bounce_speed = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/bounce10" unique_id=1672894645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/bounce10" unique_id=1015476481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14525604, 0, 12.712128)
+mesh = SubResource("BoxMesh_vef74")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1458208835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.89692247, 0.15216446, 0, 12.712128)
+mesh = SubResource("BoxMesh_vef74")
 
 [node name="racemanager" type="Node3D" parent="." unique_id=587211052 node_paths=PackedStringArray("car", "lap_label")]
 script = ExtResource("6_ryrav")
 car = NodePath("../Car")
 lap_label = NodePath("../CanvasGroup/Label2")
+
+[node name="bounce" type="Area3D" parent="." unique_id=539638233]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 43.425587, 1.5381482, 0)
+script = ExtResource("7_eow3j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce" unique_id=703539775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0755692, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce" unique_id=1440418062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9581413, 0, 0)
+mesh = SubResource("BoxMesh_5pkki")
+
+[node name="bounce11" type="Area3D" parent="." unique_id=173345892]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 43.425587, 1.5381482, 0)
+script = ExtResource("7_eow3j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce11" unique_id=1248910395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0755692, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce11" unique_id=1513717611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9581413, 0, 0)
+mesh = SubResource("BoxMesh_5pkki")
+
+[node name="bounce8" type="Area3D" parent="." unique_id=502874371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.3, 1.538, 40)
+script = ExtResource("7_eow3j")
+launch_speed = 22.0
+bounce_speed = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce8" unique_id=1884632803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce8" unique_id=722315866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1711235, 0, 0)
+mesh = SubResource("BoxMesh_vef74")
+
+[node name="bounce12" type="Area3D" parent="." unique_id=2022815249]
+transform = Transform3D(0.42395163, 0, 0, 0, 1, 0, 0, 0, 0.8626362, -130.51224, 1.538, 148.8631)
+script = ExtResource("7_eow3j")
+launch_speed = 22.0
+bounce_speed = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce12" unique_id=2047096072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce12" unique_id=600544875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1711235, 0, 0)
+mesh = SubResource("BoxMesh_vef74")
+
+[node name="bounce13" type="Area3D" parent="." unique_id=818624648]
+transform = Transform3D(0.42395163, 0, 0, 0, 1, 0, 0, 0, 0.8626362, -137.56143, 1.538, 150.98615)
+script = ExtResource("7_eow3j")
+launch_speed = 22.0
+bounce_speed = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce13" unique_id=1825764464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce13" unique_id=1439044503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1711235, 0, 0)
+mesh = SubResource("BoxMesh_vef74")
+
+[node name="bounce9" type="Area3D" parent="." unique_id=2119366695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.7, 1.538, 115)
+script = ExtResource("7_eow3j")
+launch_speed = 22.0
+bounce_speed = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce9" unique_id=1994455174]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce9" unique_id=1915972495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.89692247, 0.02741623, 0, 12.712128)
+mesh = SubResource("BoxMesh_vef74")
+
+[node name="bounce10" type="Area3D" parent="." unique_id=383863341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3, 1.538, 175)
+script = ExtResource("7_eow3j")
+launch_speed = 6.0
+bounce_speed = 14.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce10" unique_id=1391122853]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14979172, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce10" unique_id=930024344]
+mesh = SubResource("BoxMesh_mfdv2")
+
+[node name="bounce2" type="Area3D" parent="." unique_id=1680487369]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.3, 1.538, 84.2)
+script = ExtResource("7_eow3j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce2" unique_id=1286450613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14978981, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce2" unique_id=465357506]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5001831, 0, 0)
+mesh = SubResource("BoxMesh_5pkki")
+
+[node name="bounce3" type="Area3D" parent="." unique_id=1282677587]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -31, 1.538, 215.7)
+script = ExtResource("7_eow3j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce3" unique_id=785750249]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14978981, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce3" unique_id=853403770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26620483, 0, 0)
+mesh = SubResource("BoxMesh_5pkki")
+
+[node name="bounce4" type="Area3D" parent="." unique_id=1474152666]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -150, 1.538, 51.8)
+script = ExtResource("7_eow3j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce4" unique_id=1863043488]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14978981, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce4" unique_id=660029239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367054, 0, 0)
+mesh = SubResource("BoxMesh_5pkki")
+
+[node name="bounce5" type="Area3D" parent="." unique_id=35616945]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -142.2, 1.538, -43.3)
+script = ExtResource("7_eow3j")
+launch_speed = 20.0
+bounce_speed = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce5" unique_id=77439486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14978981, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce5" unique_id=405259332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30256653, 0, 0)
+mesh = SubResource("BoxMesh_5pkki")
+
+[node name="bounce6" type="Area3D" parent="." unique_id=1871788502]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -92.2, 1.538, -43.3)
+script = ExtResource("7_eow3j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce6" unique_id=1070416453]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14978981, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce6" unique_id=193575601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41435623, 0, 0)
+mesh = SubResource("BoxMesh_5pkki")
+
+[node name="bounce7" type="Area3D" parent="." unique_id=672576626]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -220, 1.538, 28)
+script = ExtResource("7_eow3j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bounce7" unique_id=1718568375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14978981, 0, 0)
+shape = SubResource("BoxShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bounce7" unique_id=1479555087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.59217834, 0, 0)
+mesh = SubResource("BoxMesh_5pkki")
+
+[node name="Bumper" type="StaticBody3D" parent="." unique_id=1782800569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2.26, -42)
+physics_material_override = SubResource("PhysicsMaterial_p8le3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bumper" unique_id=508974581]
+shape = SubResource("CylinderShape3D_5pkki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Bumper" unique_id=907787927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3110733, -0.6313057, 8.174953)
