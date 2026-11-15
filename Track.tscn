@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://c4k148c8kgaio"]
 
-[ext_resource type="Texture2D" uid="uid://cd8ji7pf6008p" path="res://track.png" id="1_8dni2"]
+[ext_resource type="Texture2D" uid="uid://cldi8vy8s5vx" path="res://textures/grass.jpg" id="1_8dni2"]
 [ext_resource type="MeshLibrary" uid="uid://j7ao7pcu5opq" path="res://TrackLib.meshlib" id="2_7by0s"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fo0vr"]
 albedo_texture = ExtResource("1_8dni2")
+uv1_scale = Vector3(0.2, 0.2, 0.2)
+uv1_triplanar = true
+uv1_world_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0j5gg"]
 

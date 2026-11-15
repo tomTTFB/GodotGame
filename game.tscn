@@ -7,8 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://c4k148c8kgaio" path="res://Track.tscn" id="5_7jktm"]
 [ext_resource type="Script" uid="uid://dwut71srwokea" path="res://scripts/racemanager.gd" id="6_ryrav"]
 [ext_resource type="Script" uid="uid://um4evrooqiuf" path="res://scripts/bounce.gd" id="7_eow3j"]
+[ext_resource type="AudioStream" uid="uid://d2pgpglithqgg" path="res://sounds/music.mp3" id="8_j5wjh"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ryrav"]
+friction = 0.79
 bounce = 0.6
 
 [sub_resource type="GDScript" id="GDScript_eow3j"]
@@ -303,6 +305,9 @@ physics_material_override = SubResource("PhysicsMaterial_ryrav")
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 0.08)
 script = SubResource("GDScript_eow3j")
+max_engine_force = 80.0
+steer_in_speed = 0.6
+steer_out_speed = 4.0
 
 [node name="vehicle-speedster" type="Node3D" parent="Car" unique_id=25386688]
 
@@ -519,8 +524,10 @@ shape = SubResource("BoxShape3D_5pkki")
 mesh = SubResource("BoxMesh_mfdv2")
 
 [node name="bounce2" type="Area3D" parent="." unique_id=1680487369]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.3, 1.538, 84.2)
+transform = Transform3D(-2.1855694e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.1855694e-08, 1.3, 1.538, 84.46649)
 script = ExtResource("7_eow3j")
+launch_speed = 20.0
+bounce_speed = 15.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="bounce2" unique_id=1286450613]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14978981, 0, 0)
@@ -601,3 +608,7 @@ shape = SubResource("CylinderShape3D_5pkki")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Bumper" unique_id=907787927]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3110733, -0.6313057, 8.174953)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=323639667]
+stream = ExtResource("8_j5wjh")
+autoplay = true
