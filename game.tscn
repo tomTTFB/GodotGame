@@ -4,8 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://buncq41t26a0e" path="res://addons/godot_super-wakatime/kenney_toy-car-kit/Models/FBX format/Textures/colormap.png" id="2_e2o6t"]
 [ext_resource type="Script" uid="uid://bami4pukrv351" path="res://scripts/SpeedLabel.gd" id="3_feb5d"]
 [ext_resource type="Script" uid="uid://clynjlbs6mg1m" path="res://scripts/chasecam.gd" id="4_fc0e3"]
-[ext_resource type="PackedScene" uid="uid://b8njbddv3h0as" path="res://Track.gltf" id="5_7jktm"]
-[ext_resource type="Script" uid="uid://dstwk7sbuydyt" path="res://track.gd" id="6_ryrav"]
+[ext_resource type="PackedScene" uid="uid://c4k148c8kgaio" path="res://Track.tscn" id="5_7jktm"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ryrav"]
 
@@ -299,8 +298,4 @@ car = NodePath("../../Car")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=389684952]
 environment = SubResource("Environment_gb0x2")
 
-[node name="StaticBody3D" parent="." unique_id=209828095 instance=ExtResource("5_7jktm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.395079, -2.3105679, 42.60811)
-script = ExtResource("6_ryrav")
-
-[editable path="StaticBody3D"]
+[node name="StaticBody3D" parent="." unique_id=1369971203 instance=ExtResource("5_7jktm")]
